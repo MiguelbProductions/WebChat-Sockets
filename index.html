@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web Chat</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" name="msg" autocomplete="off"/><button><i class="fa-solid fa-paper-plane-top"></i></button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        var socket = io();
+
+        function askForName() {
+            name = prompt("Your Name: ");
+
+            if (name) socket.emit("CheckName", { name: name })
+            else {
+                alert("Name cannot be empty. Please choose one name.")
+                askForName()
+            }
+        }
+
+        socket.on('NameExists', function() {
+            alert("Name already in use. Please choose another.")
+            askForName()
+        });
+
+        socket.on('NameAccepted', function() {
+            socket.emit("AddUser", { name: name });
+        });
+
+        socket.on('InfoText', function(command) {
+            var InfoBox = $("<li class='infobox'></li>")
+            InfoBox.text(command.InfoMsg)
+            
+            $("#messages").append(InfoBox)
+        });
+
+        socket.on("NewMSG", (command) => {
+            if (command.By == name) var InfoBox = $("<li class='selfmsg'></li>")
+            else var InfoBox = $("<li></li>")
+
+            InfoBox.text(command.By + ": " + command.Msg)
+            
+            $("#messages").append(InfoBox)
+        })
+
+        $("#form").on("submit", (event) => {
+            event.preventDefault()
+
+            var formData = $(event.target).serializeArray();
+            socket.emit("GetMSG", { by: name, msg: formData[0].value })
+
+            $("#input").val("")
+        })  
+
+        askForName()
+    </script>
+  </body>
+</html>

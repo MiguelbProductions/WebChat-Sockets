@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+#form {
+    background: #111111;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(10, 10, 10, 0.5);
+}
+
+#input {
+    flex-grow: 1;
+    border: 1px solid #555;
+    background-color: #222;
+    color: #ddd;
+    margin: 0 8px;
+    padding: 8px;
+    border-radius: 15px;
+    outline: none;
+}
+
+#input:focus {
+    border-color: #777;
+}
+
+#form > button {
+    background: #0d6efd;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#form > button:hover {
+    background-color: #0056b3;
+}
+
+#messages {
+    list-style-type: none;
+    padding: 20px;
+    margin-bottom: 60px;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+}
+
+#messages > li {
+    padding: 10px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    color: #ccc;
+    max-width: max-content;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#messages > li.infobox {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    align-self: center;
+}
+
+#messages > li.selfmsg {
+    background-color: #0d479d;
+    color: #ddd;
+    align-self: flex-end;
+    text-align: right;
+}
+
+#messages > li:not(.selfmsg) {
+    align-self: flex-start;
+    text-align: left;
+}
